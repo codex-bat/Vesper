@@ -6,7 +6,7 @@
 		"glint.ItemStackGlintMixin",
 		"glint.HandledScreenMixin",
 		"glint.InGameHudMixin",
-		"glint.WorldGLintEmitterMixin"
+		"glint.WorldGlintEmitterMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
