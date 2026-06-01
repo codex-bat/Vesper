@@ -23,19 +23,7 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-}
 
-sourceSets {
-	main {
-		resources {
-			srcDir 'src/main/resources'
-		}
-	}
-	client {
-		resources {
-			srcDir 'src/client/resources'
-		}
-	}
 }
 
 dependencies {
@@ -64,10 +52,6 @@ processResources {
 	}
 }
 
-tasks.withType(ProcessResources).configureEach {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
 }
@@ -85,6 +69,8 @@ java {
 jar {
 	def projectName = project.name
 	inputs.property "projectName", projectName
+
+	from sourceSets.client.output
 
 	from("LICENSE") {
 		rename { "${it}_$projectName"}
