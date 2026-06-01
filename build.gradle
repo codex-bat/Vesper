@@ -23,13 +23,16 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
 }
 
 sourceSets {
 	main {
 		resources {
 			srcDir 'src/main/resources'
+		}
+	}
+	client {
+		resources {
 			srcDir 'src/client/resources'
 		}
 	}
