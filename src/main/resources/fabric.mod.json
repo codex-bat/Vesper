@@ -8,10 +8,10 @@
 		"Codex.bat"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://maven.codexbat.dev",
+		"sources": "https://github.com/codex-bat/Vesper"
 	},
-	"license": "CC0-1.0",
+	"license": "ARR",
 	"icon": "assets/vesper/icon.png",
 	"environment": "*",
 	"entrypoints": {
