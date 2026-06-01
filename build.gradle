@@ -64,7 +64,7 @@ processResources {
 	}
 }
 
-tasks.named("processClientResources", ProcessResources).configure {
+tasks.withType(ProcessResources).configureEach {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
