@@ -70,7 +70,8 @@ jar {
 	def projectName = project.name
 	inputs.property "projectName", projectName
 
-	from sourceSets.client.output
+	from sourceSets.client.output.classesDirs
+	from sourceSets.client.output.resourcesDir
 
 	from("LICENSE") {
 		rename { "${it}_$projectName"}
