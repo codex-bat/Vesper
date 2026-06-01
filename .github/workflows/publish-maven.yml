@@ -41,7 +41,7 @@ jobs:
       - name: Sync release repository
         run: |
           mkdir -p codex.bat-maven/releases
-          rsync -a --delete build/staging-repo/releases/ codex.bat-maven/releases/
+          rsync -a build/staging-repo/releases/ codex.bat-maven/releases/
           printf 'maven.codexbat.dev\n' > codex.bat-maven/CNAME
 
       - name: Commit and push
