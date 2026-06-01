@@ -30,22 +30,22 @@ jobs:
       - name: Build and publish to local staging repo
         run: ./gradlew publish
 
-      - name: Checkout codexbat-maven
+      - name: Checkout codex.bat-maven
         uses: actions/checkout@v6
         with:
-          repository: codex-bat/codexbat-maven
+          repository: codex-bat/codex.bat-maven
           ref: main
-          path: codexbat-maven
+          path: codex.bat-maven
           token: ${{ secrets.MAVEN_DEPLOY_TOKEN }}
 
       - name: Sync release repository
         run: |
-          mkdir -p codexbat-maven/releases
-          rsync -a --delete build/staging-repo/releases/ codexbat-maven/releases/
-          printf 'maven.codexbat.dev\n' > codexbat-maven/CNAME
+          mkdir -p codex.bat-maven/releases
+          rsync -a --delete build/staging-repo/releases/ codex.bat-maven/releases/
+          printf 'maven.codexbat.dev\n' > codex.bat-maven/CNAME
 
       - name: Commit and push
-        working-directory: codexbat-maven
+        working-directory: codex.bat-maven
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
