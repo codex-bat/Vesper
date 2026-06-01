@@ -80,7 +80,7 @@ publishing {
 	publications {
 		create("mavenJava", MavenPublication) {
 			from components.java
-			groupId = project.maven_group
+			groupId = "dev.codexbat"
 			artifactId = "vesper"
 			version = project.mod_version
 		}
