@@ -1,0 +1,17 @@
+{
+	"required": true,
+	"package": "dev.codexbat.vesper.client.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"glint.ItemStackGlintMixin",
+		"glint.HandledScreenMixin",
+		"glint.InGameHudMixin",
+		"glint.WorldGLintEmitterMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

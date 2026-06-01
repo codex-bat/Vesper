@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_banner": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:black_banner"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "vesper:codex_plush"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_banner"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "vesper:codex_plush"
+    ]
+  }
+}

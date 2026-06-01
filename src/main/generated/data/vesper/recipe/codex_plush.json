@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:black_wool",
+    {
+      "fabric:type": "vesper:component",
+      "item": {
+        "components": {
+          "minecraft:banner_patterns": [
+            {
+              "color": "gray",
+              "pattern": "minecraft:skull"
+            },
+            {
+              "color": "black",
+              "pattern": "minecraft:rhombus"
+            },
+            {
+              "color": "black",
+              "pattern": "minecraft:stripe_middle"
+            },
+            {
+              "color": "gray",
+              "pattern": "minecraft:piglin"
+            }
+          ]
+        },
+        "count": 1,
+        "id": "minecraft:black_banner"
+      }
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "vesper:codex_plush"
+  }
+}

@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "vesper",
+	"version": "${version}",
+	"name": "Vesper",
+	"description": "A modular utility library for Codex.bat's mods — custom glints, registries, and more.",
+	"authors": [
+		"Codex.bat"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/vesper/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.codexbat.vesper.Vesper"
+		],
+		"client": [
+			"dev.codexbat.vesper.client.VesperClient"
+		],
+		"fabric-datagen": [
+			"dev.codexbat.vesper.datagen.VesperDataGenerator"
+		]
+	},
+	"mixins": [
+		"vesper.mixins.json",
+		{
+			"config": "vesper.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
