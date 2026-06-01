@@ -1,3 +1,7 @@
+# Holy f*ck I feel so dumb. "YOUR_GITHUB_USERNAME" LMAO I COMPLETELY FORGOT ABOUT THAT. oh my days...
+# I look like a bloody idiot now
+# I'm so sorry me 🙏 
+
 name: publish-maven
 
 on:
@@ -33,7 +37,7 @@ jobs:
       - name: Checkout codexbat-maven
         uses: actions/checkout@v6
         with:
-          repository: <YOUR_GITHUB_USERNAME>/codexbat-maven
+          repository: <codex-bat>/codexbat-maven
           ref: main
           path: codexbat-maven
           token: ${{ secrets.MAVEN_DEPLOY_TOKEN }}
