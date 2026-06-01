@@ -33,7 +33,7 @@ jobs:
       - name: Checkout codexbat-maven
         uses: actions/checkout@v6
         with:
-          repository: <codex.bat>/codexbat-maven
+          repository: <YOUR_GITHUB_USERNAME>/codexbat-maven
           ref: main
           path: codexbat-maven
           token: ${{ secrets.MAVEN_DEPLOY_TOKEN }}
