@@ -70,18 +70,12 @@ jar {
 
 publishing {
 	publications {
-		create("mavenJava", MavenPublication) {
-			from components.java
+		mavenJava(MavenPublication) {
 			groupId = "dev.codexbat"
 			artifactId = "vesper"
 			version = project.mod_version
-		}
-	}
 
-	repositories {
-		maven {
-			name = "staging"
-			url = layout.buildDirectory.dir("staging-repo/releases").get().asFile.toURI()
+			artifact(tasks.named("remapJar"))
 		}
 	}
 }
