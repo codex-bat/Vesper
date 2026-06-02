@@ -52,27 +52,6 @@ processResources {
 	}
 }
 
-// ============================================================
-// physically copy client resources into main's output
-// before the jar task runs. no Loom magic, cuz I can't understand it.
-// ============================================================
-tasks.register('mergeClientResources', Copy) {
-	dependsOn 'processClientResources'
-
-	// Source: where processClientResources wrote its output
-	from sourceSets.client.output.resourcesDir
-
-	// Destination: the main output dir the jar task reads by default
-	into sourceSets.main.output.resourcesDir
-
-	// Change to INCLUDE if you want client files to win on conflict
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
-}
-
 java {
 	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 	// if it is present.
@@ -83,15 +62,25 @@ java {
 	targetCompatibility = JavaVersion.VERSION_21
 }
 
-jar {
-	// Wait for the merge to finish before packaging
-	dependsOn 'mergeClientResources'
+// ── Neutral staging dir — not owned by any source set ─────────────────────
+def clientResourcesStaging = layout.buildDirectory.dir("resources/clientStaging")
 
+tasks.register('stageClientResources', Copy) {
+	// Task-reference wiring: Gradle 9 sees this as "output of processClientResources"
+	// No implicit dependency warning — the relationship is explicit
+	from tasks.named('processClientResources')
+	into clientResourcesStaging
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
 	def projectName = project.name
 	inputs.property "projectName", projectName
 
-	// Only classes needed here — resources are already in main's output dir
-	from sourceSets.client.output.classesDirs
+	// Same pattern: task refs, not raw directory paths
+	// Gradle 9 resolves the dep chain automatically from these
+	from tasks.named('compileClientJava').flatMap { it.destinationDirectory }
+	from tasks.named('stageClientResources')
 
 	from("LICENSE") {
 		rename { "${it}_$projectName" }
