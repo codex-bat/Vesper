@@ -6,7 +6,8 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-repositories {}
+repositories {
+}
 
 loom {
 	splitEnvironmentSourceSets()
@@ -33,18 +34,12 @@ fabricApi {
 }
 
 processResources {
-	// reads src/client/resources/ directly — source dir
-	// files land in build/resources/main/ where jar reads by default.
-	from sourceSets.client.resources
-
 	def version = project.version
 	inputs.property "version", version
 
 	filesMatching("fabric.mod.json") {
 		expand "version": version
 	}
-
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -58,18 +53,19 @@ java {
 }
 
 jar {
+	// If the same class/resource appears in both main and client outputs,
+	// keep the first copy encountered (main wins) and discard the duplicate.
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
 	def projectName = project.name
 	inputs.property "projectName", projectName
 
-	// client classes still need explicit inclusion — this is fine because
-	// im referencing the task itself, not its output directory bare path
-	from tasks.named('compileClientJava').flatMap { it.destinationDirectory }
+	from sourceSets.client.output.classesDirs
+	from sourceSets.client.output.resourcesDir
 
 	from("LICENSE") {
 		rename { "${it}_$projectName" }
 	}
-
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 publishing {
