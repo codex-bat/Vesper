@@ -75,7 +75,15 @@ publishing {
 			artifactId = "vesper"
 			version = project.mod_version
 
+			from components.java
 			artifact(tasks.named("remapJar"))
+		}
+	}
+
+	repositories {
+		maven {
+			name = "staging"
+			url = uri(layout.buildDirectory.dir("staging-repo/releases"))
 		}
 	}
 }

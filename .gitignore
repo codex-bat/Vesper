@@ -41,7 +41,7 @@ replay_*.log
 
 # assets
 
-assets/
+.assets/
 
 # workflow
 

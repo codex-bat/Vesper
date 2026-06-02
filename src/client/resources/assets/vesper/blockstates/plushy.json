@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "vesper:block/codex_plush" },
+    "facing=east":  { "model": "vesper:block/codex_plush" },
+    "facing=south": { "model": "vesper:block/codex_plush" },
+    "facing=west":  { "model": "vesper:block/codex_plush" }
+  }
+}
