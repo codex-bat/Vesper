@@ -52,6 +52,23 @@ processResources {
 	}
 }
 
+// ============================================================
+// physically copy client resources into main's output
+// before the jar task runs. no Loom magic, cuz I can't understand it.
+// ============================================================
+tasks.register('mergeClientResources', Copy) {
+	dependsOn 'processClientResources'
+
+	// Source: where processClientResources wrote its output
+	from sourceSets.client.output.resourcesDir
+
+	// Destination: the main output dir the jar task reads by default
+	into sourceSets.main.output.resourcesDir
+
+	// Change to INCLUDE if you want client files to win on conflict
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
 }
@@ -67,15 +84,20 @@ java {
 }
 
 jar {
+	// Wait for the merge to finish before packaging
+	dependsOn 'mergeClientResources'
+
 	def projectName = project.name
 	inputs.property "projectName", projectName
 
+	// Only classes needed here — resources are already in main's output dir
 	from sourceSets.client.output.classesDirs
-	from sourceSets.client.output.resourcesDir
 
 	from("LICENSE") {
-		rename { "${it}_$projectName"}
+		rename { "${it}_$projectName" }
 	}
+
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 // configure the maven publication
