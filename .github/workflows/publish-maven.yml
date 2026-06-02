@@ -28,7 +28,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build and publish to local staging repo
-        run: ./gradlew publishMavenJavaPublicationToStagingRepository
+        run: ./gradlew publish
 
       - name: Checkout codex.bat-maven
         uses: actions/checkout@v6
