@@ -6,13 +6,7 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
-}
+repositories {}
 
 loom {
 	splitEnvironmentSourceSets()
@@ -23,18 +17,13 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	
 }
 
 fabricApi {
@@ -44,43 +33,37 @@ fabricApi {
 }
 
 processResources {
+	// reads src/client/resources/ directly — source dir
+	// files land in build/resources/main/ where jar reads by default.
+	from sourceSets.client.resources
+
 	def version = project.version
 	inputs.property "version", version
 
 	filesMatching("fabric.mod.json") {
 		expand "version": version
 	}
+
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
 	withSourcesJar()
-
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
-}
-
-// Neutral staging dir — not owned by any source set
-def clientResourcesStaging = layout.buildDirectory.dir("resources/clientStaging")
-
-tasks.register('stageClientResources', Copy) {
-	// Task-reference wiring: Gradle 9 sees this as "output of processClientResources"
-	// No implicit dependency warning — the relationship is explicit
-	from tasks.named('processClientResources')
-	into clientResourcesStaging
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 jar {
 	def projectName = project.name
 	inputs.property "projectName", projectName
 
-	// Same pattern: task refs, not raw directory paths
-	// Gradle 9 resolves the dep chain automatically from these
+	// client classes still need explicit inclusion — this is fine because
+	// im referencing the task itself, not its output directory bare path
 	from tasks.named('compileClientJava').flatMap { it.destinationDirectory }
-	from tasks.named('stageClientResources')
 
 	from("LICENSE") {
 		rename { "${it}_$projectName" }
@@ -89,7 +72,6 @@ jar {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-// configure the maven publication
 publishing {
 	publications {
 		create("mavenJava", MavenPublication) {
